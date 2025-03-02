@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <h1>Convert your Markdown files here:</h1>
+      <input multiple type="file" id="markdown-input" />
+      <button onclick="convert()">Convert</button>
+    </div>
+    <div id="output-container">
+      <!-- output -->
+    </div>
+    <script>
+      function convert() {
+        const files = document.getElementById('markdown-input').files;
+        const outputContainer = document.getElementById('output-container');
+        
+        if (files.length === 0) {
+          alert("Please select at least one file.");
+          return;
+        }
+
+        for (let i = 0; i < files.length; i++) {
+          const reader = new FileReader()
+          const file = files[i];
+
+          reader.onload = (e) => {
+            const markdown = e.target.result;
+            const outputCard = document.createElement("div")
+            outputCard.innerHTML = marked.parse(markdown)
+            outputContainer.appendChild(outputCard)
+          }
+
+          reader.readAsText(file)
+        }
+
+      }
+    </script>
+  </body>
+</html>
